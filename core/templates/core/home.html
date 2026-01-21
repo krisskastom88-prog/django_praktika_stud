@@ -1,0 +1,51 @@
+{% extends "core/base.html" %}
+
+{% block title %}Панель управления - Практика.STUD{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h2>Информационная система планирования и учёта производственной практики</h2>
+        <p>Упростите процесс организации, отслеживания и оценки практики студентов.</p>
+    </div>
+</section>
+
+<!-- НОВАЯ СЕКЦИЯ: Панель управления -->
+<section class="dashboard-section" id="dashboard">
+    <div class="container">
+        <h3>Панель управления</h3>
+        <div class="dashboard-widgets">
+            <div class="widget widget-practices">
+                <i class="fas fa-user-graduate icon-large"></i>
+                <div class="widget-info">
+                    <h4>Активные практики</h4>
+                    <p>{{ active_practices }}</p>
+                </div>
+            </div>
+            <div class="widget widget-reports">
+                <i class="fas fa-file-alt icon-large"></i>
+                <div class="widget-info">
+                    <h4>Всего отчётов</h4>
+                    <p>{{ total_reports }}</p>
+                </div>
+            </div>
+            <div class="widget widget-deadlines">
+                <i class="fas fa-calendar-check icon-large"></i>
+                <div class="widget-info">
+                    <h4>Всего студентов</h4>
+                    <p>{{ total_students }}</p>
+                </div>
+            </div>
+            <div class="widget widget-students">
+                <i class="fas fa-building icon-large"></i>
+                <div class="widget-info">
+                    <h4>Всего предприятий</h4>
+                    <p>{{ total_companies }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- КОНЕЦ НОВОЙ СЕКЦИИ -->
+
+{% endblock %}

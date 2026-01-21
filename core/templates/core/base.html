@@ -1,0 +1,73 @@
+<!-- templates/core/base.html -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Практика.STUD{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <!-- Импорт шрифта Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Импорт Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- Боковая панель (sidebar) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">Практика.STUD</h1>
+            </div>
+            {% if user.is_authenticated %}
+                <div class="auth-controls-sidebar">
+                    <span id="currentUserDisplay">Привет, {{ user.username }} ({{ user.get_role_display }})!</span>
+                    <a href="{% url 'logout' %}" class="auth-button">Выйти</a>
+                </div>
+            {% else %}
+                <div class="auth-controls-sidebar">
+                    <a href="{% url 'home' %}" class="auth-button">Войти</a>
+                    <a href="{% url 'home' %}" class="auth-button">Регистрация</a>
+                </div>
+            {% endif %}
+
+            <h3>Навигация</h3>
+            <ul class="nav-list">
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Панель управления</a></li>
+                <li><a href="#"><i class="fas fa-users"></i> Студенты</a></li>
+                {% if user.role == 'admin' %}
+                    <li><a href="#"><i class="fas fa-building"></i> Предприятия</a></li>
+                {% endif %}
+                <li><a href="#"><i class="fas fa-user-graduate"></i> Практики</a></li>
+                <li><a href="#"><i class="fas fa-file-alt"></i> Отчёты</a></li>
+                {% if user.role == 'admin' %}
+                    <li><a href="#"><i class="fas fa-cog"></i> Профиль</a></li>
+                {% endif %}
+            </ul>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Практика.STUD. Все права защищены.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

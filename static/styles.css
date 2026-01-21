@@ -1,0 +1,401 @@
+/* static/styles.css */
+
+/* Импорт шрифта Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Сброс */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --- ОБЩИЕ СТИЛИ ДЛЯ ФОНА --- */
+
+/* Фоновое изображение для всех страниц */
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* ИСПОЛЬЗУЕМ ОДНО ИЗОБРАЖЕНИЕ ДЛЯ ВСЕХ СТРАНИЦ */
+    background: url('/static/images/123456.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: -2; /* Помещаем за контентом */
+}
+
+/* Затемнение фона для всех страниц */
+.background-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Полупрозрачный чёрный слой */
+    z-index: -1;
+}
+
+/* --- СТИЛИ ДЛЯ СТРАНИЦЫ ВХОДА/РЕГИСТРАЦИИ --- */
+
+body.login-register-body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb; /* Этот цвет не виден из-за фона */
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* Убираем фон из body, так как он в .background-image */
+    background: none;
+}
+
+/* Центральная форма (тёмная) для входа/регистрации */
+.login-register-body .form-container {
+    background: #000000; /* Тёмный фон формы */
+    color: white; /* Белый текст */
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    z-index: 1; /* Чтобы форма была поверх затемнения */
+}
+
+/* Логотип на странице входа */
+.login-register-body .logo {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff; /* Белый цвет логотипа */
+    margin-bottom: 0.5rem;
+}
+
+.login-register-body .tagline {
+    font-size: 1rem;
+    color: #e5e7eb; /* Светло-серый текст */
+    margin-bottom: 1.5rem;
+}
+
+/* Вкладки (если нужно) */
+.login-register-body .tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1.5rem;
+}
+
+.login-register-body .tab {
+    padding: 0.5rem 1rem;
+    background: #0d0e0f; /* Более светлый оттенок для вкладок */
+    border: 1px solid #000000;
+    border-bottom: none;
+    border-radius: 0.5rem 0.5rem 0 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: white;
+}
+
+.login-register-body .tab.active {
+    background: #1c1d1f;
+    color: white;
+    border-color: #000000;
+}
+
+.login-register-body .tab:hover:not(.active) {
+    background: #000000;
+}
+
+/* Форма */
+.login-register-body .form-content {
+    display: block;
+}
+
+.login-register-body .input-group {
+    margin-bottom: 1rem;
+}
+
+.login-register-body .input-group input,
+.login-register-body .input-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #374151;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background: #1a1a1b; /* Тёмный фон полей */
+    color: white; /* Белый текст */
+    transition: border-color 0.2s ease;
+}
+
+.login-register-body .input-group input:focus,
+.login-register-body .input-group select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.login-register-body .btn {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    margin-top: 1rem;
+}
+
+.login-register-body .btn-primary {
+    background-color: #252525;
+    color: white;
+}
+
+.login-register-body .btn-primary:hover {
+    background-color: #000000;
+}
+
+.login-register-body .btn-secondary {
+    background-color: #252525;
+    color: white;
+}
+
+.login-register-body .btn-secondary:hover {
+    background-color: #000000;
+}
+
+/* Сообщения об ошибках */
+.login-register-body .messages {
+    margin-top: 1rem;
+}
+
+.login-register-body .alert {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.login-register-body .alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.login-register-body .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* --- СТИЛИ ДЛЯ СТРАНИЦЫ СТУДЕНТА --- */
+
+/* Класс для тела страницы студента */
+.student-dashboard-body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f0f0; /* Этот цвет не виден из-за фона */
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* Убираем фон из body, так как он в .background-image */
+    background: none;
+}
+
+/* Верхняя панель (header) для страницы студента */
+.header {
+    background-color: #000000; /* Чёрный */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.5rem 0;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    max-width: 1200px; /* Добавим ограничение ширины контейнера */
+    margin: 0 auto; /* Центрируем сам контейнер */
+    width: 100%; /* Контейнер занимает всю ширину до max-width */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white; /* Белый цвет логотипа */
+    text-decoration: none;
+    margin: 0;
+}
+
+.auth-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.auth-button {
+    padding: 0.5rem 1rem;
+    background-color: #333333; /* Тёмно-серый */
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-decoration: none;
+}
+
+.auth-button:hover {
+    background-color: #444444;
+    transform: scale(1.02);
+}
+
+.auth-button:active {
+    transform: scale(0.98);
+}
+
+/* Основной контент */
+.main-content {
+    flex: 1;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    position: relative;
+    z-index: 0; /* Ниже фона, но выше footer */
+    margin-top: 60px; /* Отступ, чтобы контент не заезжал под sticky header */
+}
+
+/* Стили для .container (основной контейнер для контента) */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Стили для .practices-section */
+.practices-section {
+    margin-top: 1rem;
+}
+
+.practices-section h2 {
+    margin-bottom: 1.5rem;
+    color: #000000;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Стили для .cards-grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Стили для .practice-card */
+.practice-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.practice-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.practice-card h4 {
+    margin-bottom: 0.75rem;
+    color: #000000;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.practice-card p {
+    margin: 0.4rem 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Стили для .status-badge */
+.practice-card .status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 12px;
+    margin-top: 0.5rem;
+}
+
+.status-planned { background-color: #f0f0f0; color: #000000; }
+.status-ongoing { background-color: #e6f7ee; color: #006633; }
+.status-completed { background-color: #f0f0f0; color: #000000; }
+
+/* Стили для .profile-card */
+.profile-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left; /* Выровняем текст слева */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.profile-card h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #000000; /* Чёрный заголовок */
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.profile-card p {
+    margin: 0.25rem 0;
+}
+
+.profile-card p strong {
+    color: #333; /* Тёмный цвет для меток */
+}
+
+/* Стили для сообщений */
+.messages {
+    margin: 1rem 0;
+}
+
+.alert {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.alert-error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+/* --- КОНЕЦ СТИЛЕЙ --- */

@@ -1,0 +1,33 @@
+<!-- templates/core/student_dashboard.html -->
+
+{% extends "core/base_student_dashboard.html" %}
+
+{% block title %}Мои практики - Практика.STUD{% endblock %}
+
+{% block content %}
+    <!-- Секция: Практики студента -->
+    <section class="practices-section" id="student-practices">
+        <div class="container">
+            <!-- Заголовок -->
+            <h2>Мои практики:</h2>
+
+            {% if practices %}
+                <div class="cards-grid">
+                    {% for practice in practices %}
+                        <div class="practice-card">
+                            <h4>{{ practice.company.name }}</h4>
+                            <p><strong>Период:</strong> {{ practice.start_date|date:"d M Y" }} - {{ practice.end_date|date:"d M Y" }}</p>
+                            <p><strong>Статус:</strong> <span class="status-badge status-{{ practice.status }}">{{ practice.get_status_display }}</span></p>
+                            {% if practice.description %}
+                                <p><strong>Описание:</strong> {{ practice.description }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>У вас пока нет практик.</p>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}
