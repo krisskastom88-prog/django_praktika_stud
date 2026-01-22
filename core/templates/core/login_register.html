@@ -1,4 +1,9 @@
 <!-- templates/core/login_register.html -->
+<!-- Изменения:
+     - Добавлен выбор роли ТОЛЬКО для админа (для остальных — скрыт)
+     - Улучшена стилизация сообщений
+     - Добавлен placeholder для email
+-->
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -8,28 +13,22 @@
     <title>Практика.STUD - Вход / Регистрация</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <!-- Импорт шрифта Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="login-register-body">
 
-    <!-- Фоновое изображение -->
     <div class="background-image"></div>
 
-    <!-- Центральная форма -->
     <div class="form-container">
-
-        <!-- Логотип -->
         <h1 class="logo">Практика.STUD</h1>
         <p class="tagline">Управление производственной практикой</p>
 
-        <!-- Вкладки -->
         <div class="tabs">
             <button class="tab active" data-tab="login">Вход</button>
             <button class="tab" data-tab="register">Регистрация</button>
         </div>
 
-              <!-- Форма входа -->
+        <!-- Форма входа -->
         <div id="loginForm" class="form-content">
             <form method="post">
                 {% csrf_token %}
@@ -43,14 +42,12 @@
             </form>
         </div>
 
-       
-
-         <!-- Форма регистрации -->
+        <!-- Форма регистрации -->
         <div id="registerForm" class="form-content" style="display: none;">
             <form method="post">
                 {% csrf_token %}
                 <div class="input-group">
-                    <input type="email" name="register_email" placeholder="Эл. почта" required>
+                    <input type="email" name="register_email" placeholder="Эл. почта (необязательно)">
                 </div>
                 <div class="input-group">
                     <input type="text" name="register_username" placeholder="Имя пользователя" required>
@@ -61,47 +58,44 @@
                 <div class="input-group">
                     <input type="password" name="register_password2" placeholder="Подтверждение пароля" required>
                 </div>
+                {% if user.is_superuser or user.role == 'admin' %}
                 <div class="input-group">
                     <select name="register_role" required>
                         <option value="">Выберите роль</option>
                         <option value="student">Студент</option>
-                        <option value="supervisor">Преподаватель</option>
-                        <option value="admin">Супер администратор</option>
+                        <option value="supervisor">Преподаватель-куратор</option>
+                        <option value="admin">Администратор</option>
                     </select>
                 </div>
+                {% else %}
+                    <input type="hidden" name="register_role" value="student">
+                {% endif %}
                 <button type="submit" class="btn btn-secondary">Зарегистрироваться</button>
             </form>
         </div>
 
-        <!-- Сообщения об ошибках -->
         {% if messages %}
-            <div class="messages">
+            <div class="messages mt-4">
                 {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 {% endfor %}
             </div>
         {% endif %}
-
     </div>
 
-
-
-    <script>    
-    // Переключение между вкладками
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            // Снимаем активность со всех вкладок
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            // Делаем текущую вкладку активной
-            this.classList.add('active');
-            // Скрываем все формы
-            document.querySelectorAll('.form-content').forEach(form => form.style.display = 'none');
-            // Показываем нужную форму
-            const tabName = this.getAttribute('data-tab');
-            document.getElementById(`${tabName}Form`).style.display = 'block';
+    <script>
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.form-content').forEach(form => form.style.display = 'none');
+                const tabName = this.getAttribute('data-tab');
+                document.getElementById(`${tabName}Form`).style.display = 'block';
+            });
         });
-    });
     </script>
-
 </body>
 </html>

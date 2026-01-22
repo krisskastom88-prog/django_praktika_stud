@@ -7,8 +7,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.home, name='home'), # Главная страница (вход/регистрация)
+ path('admin/', admin.site.urls),          # админка
+    path('', include('core.urls')),
     path('student-dashboard/', views.student_dashboard, name='student_dashboard'), # Студент
     path('supervisor-dashboard/', views.supervisor_dashboard, name='supervisor_dashboard'), # Преподаватель
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'), # Админ
