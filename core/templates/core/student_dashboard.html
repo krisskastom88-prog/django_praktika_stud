@@ -1,33 +1,78 @@
 <!-- templates/core/student_dashboard.html -->
 
-{% extends "core/base_student_dashboard.html" %}
+{% extends 'core/base_student_dashboard.html' %}
 
 {% block title %}Мои практики - Практика.STUD{% endblock %}
 
 {% block content %}
-    <!-- Секция: Практики студента -->
-    <section class="practices-section" id="student-practices">
-        <div class="container">
-            <!-- Заголовок -->
-            <h2>Мои практики:</h2>
 
-            {% if practices %}
-                <div class="cards-grid">
-                    {% for practice in practices %}
-                        <div class="practice-card">
-                            <h4>{{ practice.company.name }}</h4>
-                            <p><strong>Период:</strong> {{ practice.start_date|date:"d M Y" }} - {{ practice.end_date|date:"d M Y" }}</p>
-                            <p><strong>Статус:</strong> <span class="status-badge status-{{ practice.status }}">{{ practice.get_status_display }}</span></p>
-                            {% if practice.description %}
-                                <p><strong>Описание:</strong> {{ practice.description }}</p>
+<div class="container practices-section">
+    <h2 class="text-white text-center mb-5" style="font-weight: 600; letter-spacing: 0.5px; color: white;">
+        Мои практики
+    </h2>
+
+    {% if practices %}
+        <div class="accordion" id="practicesAccordion">
+            {% for practice in practices %}
+                <div class="accordion-item practice-card" style="background: rgba(30, 30, 35, 0.85); border: 1px solid rgba(100, 100, 120, 0.4); backdrop-filter: blur(6px);">
+                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                        <button class="accordion-button collapsed text-white" 
+                                type="button" 
+                                data-bs-toggle="accordion" 
+                                data-bs-target="#collapse{{ forloop.counter }}" 
+                                aria-expanded="false" 
+                                aria-controls="collapse{{ forloop.counter }}"
+                                style="background: transparent; color: white; border: none; font-weight: 500;">
+                            <div class="d-flex flex-column w-100">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <strong style="font-size: 1.15rem;">{{ practice.company.name }}</strong>
+                                    <span class="status-badge status-{{ practice.status }}">
+                                        {{ practice.get_status_display }}
+                                    </span>
+                                </div>
+                                <small class="text-light mt-1">
+                                    Период: {{ practice.start_date|date:"d M Y" }} — {{ practice.end_date|date:"d M Y" }}
+                                </small>
+                                <small class="text-muted mt-1" style="font-size: 0.875rem;">
+                                    {{ practice.description|truncatewords:25|default:"Без описания" }}
+                                </small>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#practicesAccordion">
+                        <div class="accordion-body text-light" style="background: rgba(20, 20, 25, 0.9); border-top: 1px solid rgba(80, 80, 100, 0.5);">
+                            <h5 class="mb-3" style="color: #e0e0e0;">Сданные документы (отчёты):</h5>
+                            
+                            {% if practice.reports.all %}
+                                <ul class="list-group list-group-flush">
+                                    {% for report in practice.reports.all %}
+                                        <li class="list-group-item bg-transparent border-bottom border-secondary text-light d-flex justify-content-between align-items-center py-3">
+                                            <div>
+                                                <strong>{{ report.get_report_type_display }}</strong><br>
+                                                <small class="text-muted">{{ report.date_submitted|date:"d.m.Y H:i" }}</small>
+                                            </div>
+                                            <span class="badge rounded-pill px-3 py-2 {% if report.reviewed_by_supervisor %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                                {% if report.reviewed_by_supervisor %}Проверено{% else %}Ожидает проверки{% endif %}
+                                            </span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="text-center text-muted my-4" style="font-style: italic;">
+                                    Нет сданных документов для этой практики
+                                </p>
                             {% endif %}
                         </div>
-                    {% endfor %}
+                    </div>
                 </div>
-            {% else %}
-                <p>У вас пока нет практик.</p>
-            {% endif %}
+            {% endfor %}
         </div>
-    </section>
+    {% else %}
+        <div class="text-center py-5">
+            <p class="text-light fs-5">У вас пока нет активных практик</p>
+            <small class="text-muted">Свяжитесь с куратором или подайте новую заявку</small>
+        </div>
+    {% endif %}
+</div>
 
 {% endblock %}
